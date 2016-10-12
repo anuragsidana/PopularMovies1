@@ -100,7 +100,7 @@ public class FragmentMainActivity extends Fragment implements LoaderManager.Load
     public void onResume() {
         super.onResume();
 
-        String value = preferences.getString("listPref", "popular");
+//        String value = preferences.getString("listPref", "popular");
         // getjson(value);
     }
 

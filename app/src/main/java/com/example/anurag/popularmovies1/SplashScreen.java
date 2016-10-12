@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.anurag.popularmovies1.Api.Model.MoviesModel;
 import com.example.anurag.popularmovies1.Api.Model.Result;
@@ -27,12 +29,14 @@ public class SplashScreen extends AppCompatActivity {
     List<Result> list;
     SharedPreferences preferences;
     String mListPref;
+    LinearLayout mProgressLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        mProgressLayout = (LinearLayout) findViewById(R.id.linearLayout);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         mListPref = preferences.getString("listPref", "popular");
         if (mListPref == null) {
@@ -54,7 +58,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
     public void getjson(String sortBy) {
-
+        mProgressLayout.setVisibility(View.VISIBLE);
         Retrofit adapter = new Retrofit.Builder()
                 .baseUrl("http://api.themoviedb.org/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -113,7 +117,9 @@ public class SplashScreen extends AppCompatActivity {
             getContentResolver().bulkInsert(MoviesEntry.CONTENT_URI, cvArray);
 
         }
+        mProgressLayout.setVisibility(View.GONE);
         startActivity(new Intent(this, MainActivity.class));
+        finish();
 
 
     }
